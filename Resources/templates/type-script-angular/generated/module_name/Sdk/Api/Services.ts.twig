@@ -1,0 +1,62 @@
+{% autoescape false %}
+///<reference path="../../../include.ts" />
+{% import '@draw_swagger_generator/type-script-angular/macro.ts.twig' as macro %}
+{% set classes = swagger.paths|paths_classes %}
+{% set parameterClasses = [] %}
+module {{ parameters.module_name }}.Sdk.Api
+{
+    export class Services
+    {
+        public static $inject = [
+            '$rootScope',
+            '$http'
+        ];
+
+{% for className in classes %}
+        private _{{ className|lcfirst }}:{{ className }};
+{% endfor %}
+
+        constructor(private $rootScope: LookLike.Scope, private $http: ng.IHttpService) {}
+
+{% for className in classes %}
+        get {{ className|lcfirst }}():{{ className }} {
+            if(this._{{ className|lcfirst }} == null) {
+                this._{{ className|lcfirst }} = new {{ className }}({http: this.$http, baseUrl: this.$rootScope.baseUrl});
+            }
+
+            return this._{{ className|lcfirst }};
+        }
+{% endfor %}
+    }
+
+{% for className,paths in swagger.paths|classes_paths %}
+    export class {{ className }}
+    {
+        constructor(private http: {http: ng.IHttpService; baseUrl: string}) {}
+{% for path,pathItem in paths %}
+{% for method,operation in pathItem %}
+{% set operationParameter = operation|extract_operation_parameters(dsg.registry.ts.type_mapping) %}
+        {% set parameterClasses = parameterClasses|merge([macro.operation_parameter_class(className,operation)]) %}
+        //{{ method|upper }} {{ path }}
+        public {{ operation['x-dsg'].action }}Action(parameter:{{ macro.operation_parameter_class_name(className, operation) }}): void
+        {
+            this.http.http(
+                {
+                    url: this.http.baseUrl + '{{ macro.replace_path_parameter(path,operationParameter.path) }}',
+{% if operationParameter.query|json_encode != "{}" %}
+                    params:parameter.query,{% endif %}
+{% if operationParameter.body|json_encode != "{}" %}
+                    data:parameter.body,{% endif %}
+                    method: "{{ method|upper }}"
+                }
+            );
+        }
+{% endfor %}
+{% endfor %}
+    }
+{% endfor %}
+{% for class in parameterClasses %}
+    {{ class }}
+{% endfor %}
+}
+{% endautoescape %}

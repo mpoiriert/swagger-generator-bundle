@@ -1,0 +1,5 @@
+        delete()
+        {
+            this.api.{{ operation.pathItem['x-dsg'].resource|class_name|lcfirst }}.deleteAction();
+            this.$rootScope.$broadcast('{{ operationId }}.postDelete');
+        }

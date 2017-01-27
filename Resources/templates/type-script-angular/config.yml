@@ -1,0 +1,73 @@
+tags: ['language:typescript','framework:angular']
+files:
+  generated/module_name/Sdk/model.ts.twig:
+    fileName: "generated/{{ parameters.module_name }}/Sdk/{{ definitionName|class_name }}.ts"
+    for:
+      key: definitionName
+      value: schema
+      in:  '[swagger].definitions'
+
+  generated/module_name/Sdk/Api/Services.ts.twig:
+    fileName: "generated/{{ parameters.module_name }}/Sdk/Api/Services.ts"
+
+  generated/module_name/components/view.html.twig:
+    fileName: "generated/{{ parameters.module_name }}/components/{{ operationId|class_name}}-view.html"
+    for:
+      key: operationId
+      value: operation
+      in: '[swagger].computedOperations'
+
+  generated/module_name/components/controller.ts.twig:
+    fileName: "generated/{{ parameters.module_name }}/components/{{ operationId|class_name}}Controller.ts"
+    for:
+      key: operationId
+      value: operation
+      in: '[swagger].computedOperations'
+
+  generated/module_name/components/directive.ts.twig:
+    fileName: "generated/{{ parameters.module_name }}/components/{{ operationId|class_name}}Directive.ts"
+    for:
+      key: operationId
+      value: operation
+      in: '[swagger].computedOperations'
+
+  generated/module_name/components/directive.html.twig:
+    fileName: "generated/{{ parameters.module_name }}/components/{{ operationId|class_name}}.html"
+    for:
+      key: operationId
+      value: operation
+      in: '[swagger].computedOperations'
+
+  generated/module_name/App.ts.twig:
+    fileName: "generated/{{ parameters.module_name }}/App.ts"
+
+  generated/include.ts.twig:
+    fileName: "generated/include.ts"
+
+  assets/css/README.md.twig:
+    overwrite: false
+
+  assets/img/README.md.twig:
+    overwrite: false
+
+  assets/js/README.md.twig:
+    overwrite: false
+
+  vendor/README.md.twig:
+    overwrite: false
+
+  index.html.twig:
+    overwrite: false
+
+  src/include.ts.twig:
+    overwrite: false
+
+  src/app.ts.twig:
+    overwrite: false
+
+  src/compiled.js.twig:
+    overwrite: false
+
+  src/My/module_nameApp.ts.twig:
+    overwrite: false
+    fileName: "src/My/{{ parameters.module_name }}App.ts"

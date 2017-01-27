@@ -1,0 +1,24 @@
+parameters:
+  draw_swagger_generator.twig_extension: []
+
+services:
+  draw_swagger_generator:
+    class: Draw\SwaggerGeneratorBundle\Generator\Generator
+    arguments: [@twig,%draw_swagger.template_dir%]
+
+  draw_swagger_generator.twig_extention:
+    class: Draw\SwaggerGeneratorBundle\Generator\TwigExtension
+    arguments: [%draw_swagger_generator.twig_extension%]
+    tags:
+      - { name: twig.extension }
+
+  json_schema.uri_retriever:
+    class: JsonSchema\Uri\UriRetriever
+
+  json_schema.ref_resolver:
+    class: JsonSchema\RefResolver
+    arguments: [@json_schema.uri_retriever]
+
+  json_schema_validator:
+    class: JsonSchema\Validator
+

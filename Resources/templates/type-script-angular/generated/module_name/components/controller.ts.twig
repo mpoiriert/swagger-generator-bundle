@@ -1,0 +1,24 @@
+{% autoescape false %}
+///<reference path="../../include.ts" />
+module {{ parameters.module_name }}.Components
+{
+    export class {{ operationId|class_name }}Controller
+    {
+        public static templateUrl = 'generated/{{ parameters.module_name }}/app/components/{{ operationId }}-view.html';
+
+        public static operationId = '{{ operationId }}';
+
+        static $inject = ['$scope','$rootScope','{{ parameters.module_name|class_name }}Api'];
+        constructor(
+            $scope: any,
+            public $rootScope: ng.IRootScopeService,
+            public api: {{ parameters.module_name|class_name }}.Sdk.Api.Services )
+        {
+            $scope.controller = this;
+        }
+
+{% include [current_directory ~ '/action/_' ~ operation.schema['x-dsg'].action ~ '.ts.twig',current_directory ~ '/action/default.ts.twig'] %}
+
+    }
+}
+{% endautoescape %}

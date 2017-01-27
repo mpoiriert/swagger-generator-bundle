@@ -1,0 +1,5 @@
+        get()
+        {
+            this.api.{{ operation.pathItem['x-dsg'].resource|class_name|lcfirst }}.getAction();
+            this.$rootScope.$broadcast('{{ operationId }}.postGet');
+        }

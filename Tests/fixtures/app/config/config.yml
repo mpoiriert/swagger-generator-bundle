@@ -1,0 +1,16 @@
+imports:
+  - { resource: parameters.yml }
+
+framework:
+  secret: fos
+  router:
+    resource: "%kernel.root_dir%/config/routing.yml"
+  test: ~
+  session: ~
+  validation: { enable_annotations: true }
+  templating:
+    engines: ['twig']
+
+fos_rest:
+    body_converter:
+        enabled: true

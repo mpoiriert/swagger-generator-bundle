@@ -1,0 +1,25 @@
+{% macro operation_parameter_class(className,operation) %}
+{% import _self as macro %}
+{% set parameters = operation|extract_operation_parameters(dsg.registry.ts.type_mapping) %}
+    export interface {{ macro.operation_parameter_class_name(className, operation) }} {
+        path{% if parameters.path|json_encode == "{}" %}?{% endif %}: {{ macro.format_parameter(parameters.path) }};
+    }
+{% endmacro %}
+
+{% macro operation_parameter_class_name(className,operation) %}{{ className }}{{ operation['x-dsg'].action|capitalize }}ActionParameter{% endmacro %}
+
+{% macro format_parameter(parameter) %}{{ parameter|json_encode|replace({'"':'',',':';'}) }}{% endmacro %}
+
+{% macro replace_path_parameter(path, parameter) %}
+{% set findReplace = {} %}
+{% for name,type in parameter|to_array_recursive %}
+{% set findReplace = findReplace|merge({("{" ~ name ~ "}"):"' + parameter.path." ~ name ~ " + '"}) %}
+{% endfor %}
+{{ path|replace(findReplace) }}{% endmacro %}
+
+{% macro create_angular_route(path, operation) %}
+{% set parameters = operation|extract_operation_parameters(dsg.registry.ts.type_mapping) %}
+{% for name,type in parameters.path|to_array_recursive %}
+    {% set path = path|replace({("{" ~ name ~ "}"):":" ~ name}) %}
+{% endfor %}
+{{ path }}{% endmacro %}

@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en" ng-app="{{ parameters.module_name }}">
+<head>
+    <meta charset="utf-8">
+    <title>{{ swagger.info.title }}</title>
+    <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.css">
+    <script src="src/compiled.js"></script>
+</head>
+<body>
+<div class="view-container">
+    <div ng-view class="view-frame"></div>
+</div>
+</body>
+</html>

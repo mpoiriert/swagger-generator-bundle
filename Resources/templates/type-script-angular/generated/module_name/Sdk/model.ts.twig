@@ -1,0 +1,11 @@
+{% autoescape false %}
+///<reference path="../../include.ts" />
+module {{ parameters.module_name }}.Sdk {
+    export interface {{ definitionName|class_name }} {
+{% for propertyName, property in schema.properties %}
+{% set type = property|convert_type(dsg.registry.ts.type_mapping) %}
+        {{ propertyName }}:{% if type != "array" %}{{ type }}{% else %}{{ property.items|convert_type(dsg.registry.ts.type_mapping) }}[]{% endif %};
+{% endfor %}
+    }
+}
+{% endautoescape %}

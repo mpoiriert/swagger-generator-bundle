@@ -1,0 +1,22 @@
+{% autoescape false %}
+///<reference path="../../include.ts" />
+module {{ parameters.module_name }}.Components
+{
+    export class {{ operationId|class_name }}Directive implements ng.IDirective
+    {
+        public restrict = 'E';
+        public templateUrl = 'directives/search.html';
+
+        public scope = {
+            data: '='
+        };
+/*
+        public link($scope: ng.IScope, element: JQuery, attributes: ng.IAttributes)
+        {
+            element.text("Hello world");
+        }
+    */
+    }
+}
+{% endautoescape %}
+

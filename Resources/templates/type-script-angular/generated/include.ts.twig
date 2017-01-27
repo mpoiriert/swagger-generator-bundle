@@ -1,0 +1,6 @@
+///<reference path="../src/include.ts" />
+{% for file in dsg.registry.files %}
+{% if file.output and '.ts' in file.path %}
+///<reference path="{{ file.path|replace({"./generated/":"./"}) }}"/>
+{% endif %}
+{% endfor %}

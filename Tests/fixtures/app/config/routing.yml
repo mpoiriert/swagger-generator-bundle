@@ -1,0 +1,6 @@
+swagger:
+    resource: @DrawSwaggerBundle/Resources/config/routing.yml
+
+test:
+    resource: @DrawSwaggerBundle/Tests/Mock/Controller/TestController.php
+    type:     rest

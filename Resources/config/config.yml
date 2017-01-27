@@ -1,0 +1,58 @@
+twig:
+  paths:
+    "%kernel.root_dir%/../src/Draw/Bundle/SwaggerGeneratorBundle/Resources/templates": draw_swagger_generator
+
+draw_swagger_generator:
+  twig_extension:
+    registry:
+      ts:
+        type_mapping:
+          integer: number
+    php_functions:
+      array_unique: ~
+      iterator_to_array: ~
+      array_map:
+        argumentPosition: 1
+      explode:
+        argumentPosition: 1
+      implode:
+        argumentPosition: 1
+      lcfirst: ~
+      json_decode: ~
+      ucfirst: ~
+    filters:
+      to_array_recursive:
+        type: chain
+        parameters:
+          chain:
+            - { filterName: json_encode, arguments: [] }
+            - { filterName: json_decode, arguments: [true] }
+      classes_paths:
+        type: chain
+        parameters:
+          chain:
+            - { filterName: iterator_to_array, arguments: [] }
+            - { filterName: path_key_map, arguments: ["[x-dsg][resource]"] }
+            - { filterName: key_filter, arguments: [class_name] }
+      camelize:
+        type: chain
+        parameters:
+          chain:
+            - { filterName: explode, arguments: ['_'] }
+            - { filterName: array_map, arguments: [ucfirst] }
+            - { filterName: implode, arguments: [''] }
+      class_name:
+        type: chain
+        parameters:
+          chain:
+            - { filterName: trim, arguments: [] }
+            - { filterName: replace, arguments: [{'#/definitions/':'','\':"_",".":"_","/":"_","-":"_"}] }
+            - { filterName: camelize, arguments: [] }
+      paths_classes:
+        type: chain
+        parameters:
+          chain:
+            - { filterName: iterator_to_array, arguments: [] }
+            - { filterName: filter_map, arguments: [path,["[x-dsg][resource]"]] }
+            - { filterName: array_unique, arguments: [] }
+            - { filterName: filter_map, arguments: [class_name] }

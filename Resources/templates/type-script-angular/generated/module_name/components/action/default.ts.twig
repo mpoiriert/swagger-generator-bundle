@@ -1,0 +1,5 @@
+        {{ operation.schema['x-dsg'].action }}()
+        {
+            this.api.{{ operation.pathItem['x-dsg'].resource|class_name|lcfirst }}.{{ operation.schema['x-dsg'].action }}Action();
+            this.$rootScope.$broadcast('{{ operationId }}.post{{ operation.schema['x-dsg'].action|ucfirst }}');
+        }

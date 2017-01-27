@@ -1,0 +1,5 @@
+        list()
+        {
+            this.api.{{ operation.pathItem['x-dsg'].resource|class_name|lcfirst }}.listAction();
+            this.$rootScope.$broadcast('{{ operationId }}.postList');
+        }

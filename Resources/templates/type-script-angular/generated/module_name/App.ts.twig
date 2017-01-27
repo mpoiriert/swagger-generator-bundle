@@ -1,0 +1,66 @@
+{% autoescape false %}
+{% import '@draw_swagger_generator/type-script-angular/macro.ts.twig' as macro %}
+///<reference path="../include.ts" />
+//{{ swagger.info.title }}
+module {{ parameters.module_name }} {
+    'use strict';
+
+    export interface Scope extends ng.IScope
+    {
+        baseUrl: string;
+    }
+
+    export class App
+    {
+        private _module: ng.IModule;
+
+        constructor(angular: ng.IAngularStatic,private moduleName = '{{ parameters.module_name }}')
+        {
+            this._module = angular.module(this.moduleName,['ngRoute']);
+            this.module.service(this.moduleName + 'Api', [Sdk.Api.Services])
+        }
+
+        get module(): ng.IModule
+        {
+            return this._module;
+        }
+
+        build()
+        {
+            this.registerController();
+            this.buildRoute();
+        }
+
+        registerController()
+        {
+
+        }
+
+        buildRoute = function()
+        {
+            this.module.config(
+                [
+                    '$routeProvider',
+                    function($routeProvider: ng.route.IRouteProvider) {
+                        $routeProvider
+{% for operationId,operation in swagger.computedOperations %}
+                            .when(
+                                '{{ macro.create_angular_route(operation.path,operation.schema) }}/{{ operation.schema['x-dsg'].action }}',
+                                {
+                                    templateUrl:  {{ parameters.module_name }}.Components.{{ operationId|class_name }}Controller.templateUrl,
+                                    controller:  '{{ parameters.module_name }}.Components.{{ operationId|class_name }}'
+                                }
+                            )
+{% endfor %}
+                            .otherwise(
+                                {
+                                    redirectTo: '/'
+                                }
+                            )
+                    }
+                ]
+            );
+        }
+    }
+}
+{% endautoescape %}

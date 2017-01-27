@@ -1,0 +1,11 @@
+/// <reference path="../include.ts" />
+module My
+{
+    export class {{ parameters.module_name }}App extends {{ parameters.module_name }}.App
+    {
+        buildAll()
+        {
+            parent.buildAll();
+        }
+    }
+}

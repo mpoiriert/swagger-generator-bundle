@@ -1,0 +1,5 @@
+        save()
+        {
+            this.api.{{ operation.pathItem['x-dsg'].resource|class_name|lcfirst }}.editAction();
+            this.$rootScope.$broadcast('{{ operationId }}.postEdit');
+        }
