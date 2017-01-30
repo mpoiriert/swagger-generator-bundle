@@ -13,6 +13,7 @@ class AppKernel extends \Symfony\Component\HttpKernel\Kernel
             new Draw\SwaggerBundle\DrawSwaggerBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new Draw\DrawBundle\DrawDrawBundle(),
+            new Draw\SwaggerGeneratorBundle\DrawSwaggerGeneratorBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle()
         );

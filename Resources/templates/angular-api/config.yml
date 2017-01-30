@@ -1,0 +1,24 @@
+tags: ['language:typescript','framework:angular']
+files:
+  README.md.twig: {}
+
+  App/Repository/repository.ts.twig:
+      fileName: "App/Repository/{{ definitionName|class_name }}Repository.ts"
+      for:
+        key: definitionName
+        value: schema
+        in:  '[swagger].definitions'
+
+  App/Model/model.ts.twig:
+      fileName: "App/Model/{{ definitionName|class_name }}.ts"
+      for:
+        key: definitionName
+        value: schema
+        in:  '[swagger].definitions'
+
+  App/Api.ts.twig: {}
+      #overwrite: false
+  App/AppHttp.ts.twig: {}
+      #overwrite: false
+  App/Repository.ts.twig: {}
+      #overwrite: false

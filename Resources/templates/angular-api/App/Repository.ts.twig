@@ -1,0 +1,9 @@
+import { Repository as BaseRepository } from "api-ng/src/Repository";
+import { AppHttp } from "./AppHttp";
+
+export abstract class Repository<T> extends BaseRepository<T>
+{
+    constructor(protected appHttp:AppHttp, protected path:string) {
+        super(appHttp, path);
+    }
+}

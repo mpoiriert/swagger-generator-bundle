@@ -16,18 +16,25 @@ class GenerateCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this->setName('dsg:generate')
-          ->setDescription('Generate a application base on a template and the current schema.')
-          ->addArgument(
-            'path',
-            InputArgument::REQUIRED,
-            'What is the generation path ?'
-          )
-          ->addOption(
-            'template',
-            null,
-            InputOption::VALUE_REQUIRED,
-            'What is template you want to use ?'
-          );
+            ->setDescription('Generate a application base on a template and the current schema.')
+            ->addArgument(
+                'path',
+                InputArgument::REQUIRED,
+                'What is the generation path ?'
+            )
+            ->addOption(
+                'template',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'What is template you want to use ?',
+                'default'
+            )
+            ->addOption(
+                'swagger-url',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'What is the swagger url ?'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -38,16 +45,16 @@ class GenerateCommand extends ContainerAwareCommand
             mkdir($path, 0777, true);
         }
 
-        if ($input->hasOption('template')) {
-            $template = $input->getOption('template');
-        } else {
-            $template = 'default';
-        }
+        $template = $input->getOption('template');
 
         $container = $this->getContainer();
         $generator = $container->get("draw_swagger_generator");
-        $swagger = $container->get("draw_swagger");
-        $schema = $swagger->construct($container->get("draw_swagger.schema.swagger"));
+        $swagger = $container->get("draw.swagger");
+        if ($input->hasOption('swagger-url')) {
+            $schema = $swagger->extract(file_get_contents($input->getOption('swagger-url')));
+        } else {
+            $schema = $swagger->extract(json_encode($container->getParameter("draw_swagger.schema")));
+        }
         $generator->generate($schema, $path, $template);
     }
 } 

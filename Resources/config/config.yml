@@ -1,6 +1,6 @@
 twig:
   paths:
-    "%kernel.root_dir%/../src/Draw/Bundle/SwaggerGeneratorBundle/Resources/templates": draw_swagger_generator
+    "%draw_swagger_generator_template%": draw_swagger_generator
 
 draw_swagger_generator:
   twig_extension:
@@ -8,6 +8,9 @@ draw_swagger_generator:
       ts:
         type_mapping:
           integer: number
+          boolean: boolean
+          string: string
+          array: array
     php_functions:
       array_unique: ~
       iterator_to_array: ~
@@ -31,7 +34,6 @@ draw_swagger_generator:
         type: chain
         parameters:
           chain:
-            - { filterName: iterator_to_array, arguments: [] }
             - { filterName: path_key_map, arguments: ["[x-dsg][resource]"] }
             - { filterName: key_filter, arguments: [class_name] }
       camelize:
@@ -52,7 +54,6 @@ draw_swagger_generator:
         type: chain
         parameters:
           chain:
-            - { filterName: iterator_to_array, arguments: [] }
             - { filterName: filter_map, arguments: [path,["[x-dsg][resource]"]] }
             - { filterName: array_unique, arguments: [] }
             - { filterName: filter_map, arguments: [class_name] }

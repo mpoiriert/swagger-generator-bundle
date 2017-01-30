@@ -51,3 +51,7 @@
 
 # Ide
 .idea
+
+Tests/fixtures/output/*
+Tests/fixtures/app/logs/*
+Tests/fixtures/app/cache/*

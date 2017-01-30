@@ -52,6 +52,7 @@ class TwigExtension extends \Twig_Extension
         $filters = array();
 
         $filters[] = new Twig_SimpleFilter('path', array($this, 'pathFilter'), $options);
+        $filters[] = new Twig_SimpleFilter('is_class', array($this, 'isClass'), $options);
         $filters[] = new Twig_SimpleFilter('filter_map', array($this, 'filterMap'), $options);
         $filters[] = new Twig_SimpleFilter('path_key_map', array($this, 'pathKeyMap'), $options);
         $filters[] = new Twig_SimpleFilter('key_filter', array($this, 'keyFilter'), $options);
@@ -183,8 +184,9 @@ class TwigExtension extends \Twig_Extension
 
     public function convertType($schema, array $mapping)
     {
-        if (isset($schema->{'$ref'})) {
-            $type = $schema->{'$ref'};
+
+        if (isset($schema->ref)) {
+            $type = $schema->ref;
         } elseif (isset($schema->type)) {
             $type = $schema->type;
         }
@@ -201,6 +203,11 @@ class TwigExtension extends \Twig_Extension
         }
 
         return $type;
+    }
+
+    public function isClass($type, array $mapping)
+    {
+        return !(array_key_exists($type, $mapping) || in_array($type, $mapping));
     }
 
     public function getName()

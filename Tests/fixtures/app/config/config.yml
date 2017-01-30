@@ -1,5 +1,6 @@
 imports:
   - { resource: parameters.yml }
+  - { resource: "../../../../Resources/config/config.yml" }
 
 framework:
   secret: fos

@@ -1,0 +1,17 @@
+import { Injector, Injectable } from "@angular/core";
+{% for className, property in swagger.definitions %}
+import {{ '{ ' ~ className ~ 'Repository }' }} from "./Repository/{{ className }}Repository";
+{% endfor %}
+
+@Injectable()
+export class Api
+{
+    constructor(private injector:Injector) {}
+{% for className, property in swagger.definitions %}
+    public {{ className|lcfirst }}(): {{ className }}Repository
+    {
+        return this.injector.get({{ className }}Repository)
+    }
+
+{% endfor %}
+}

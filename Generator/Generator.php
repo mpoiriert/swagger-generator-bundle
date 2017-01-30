@@ -35,7 +35,7 @@ class Generator
     private function defaultParameters()
     {
         return array(
-          'module_name' => 'LookLike',
+          'module_name' => 'Project',
           'references' => array()
         );
     }
@@ -58,7 +58,6 @@ class Generator
      */
     public function generate(Swagger $schema, $path, $template)
     {
-        $template = 'type-script-angular';
         $config = $this->loadConfiguration($template);
 
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
