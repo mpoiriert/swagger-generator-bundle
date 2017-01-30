@@ -189,6 +189,8 @@ class TwigExtension extends \Twig_Extension
             $type = $schema->ref;
         } elseif (isset($schema->type)) {
             $type = $schema->type;
+        } else {
+            throw new \RuntimeException('Cannot detect type');
         }
 
         if (array_key_exists($type, $mapping)) {

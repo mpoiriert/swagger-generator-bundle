@@ -185,6 +185,11 @@ class Generator
 
     private function loadConfiguration($template)
     {
-        return Yaml::parse($this->templateDirectory . '/' . $template . '/config.yml');
+        $file = $this->templateDirectory . '/' . $template . '/config.yml';
+        if(!file_exists($file)) {
+            throw new \RuntimeException('Template [' . $template . '] does not exists');
+        }
+
+        return Yaml::parse($file);
     }
 }

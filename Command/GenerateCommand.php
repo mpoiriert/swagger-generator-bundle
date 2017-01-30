@@ -50,10 +50,11 @@ class GenerateCommand extends ContainerAwareCommand
         $container = $this->getContainer();
         $generator = $container->get("draw_swagger_generator");
         $swagger = $container->get("draw.swagger");
-        if ($input->hasOption('swagger-url')) {
-            $schema = $swagger->extract(file_get_contents($input->getOption('swagger-url')));
+        if ($input->hasOption('swagger-url') && ($swaggerUrl = $input->getOption('swagger-url'))) {
+            $schema = $swagger->extract(file_get_contents($swaggerUrl));
         } else {
             $schema = $swagger->extract(json_encode($container->getParameter("draw_swagger.schema")));
+            $schema = $swagger->extract($container, $schema);
         }
         $generator->generate($schema, $path, $template);
     }

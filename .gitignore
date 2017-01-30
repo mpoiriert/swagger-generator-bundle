@@ -50,7 +50,7 @@
 */Entity/*~
 
 # Ide
-.idea
+/.idea/
 
 Tests/fixtures/output/*
 Tests/fixtures/app/logs/*
