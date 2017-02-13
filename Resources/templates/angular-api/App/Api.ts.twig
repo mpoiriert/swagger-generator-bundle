@@ -1,17 +1,25 @@
-import { Injector, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
+import { AppHttp } from './AppHttp';
+{#
 {% for className, property in swagger.definitions %}
 import {{ '{ ' ~ className ~ 'Repository }' }} from "./Repository/{{ className }}Repository";
-{% endfor %}
+{% endfor %}#}
 
 @Injectable()
 export class Api
 {
-    constructor(private injector:Injector) {}
-{% for className, property in swagger.definitions %}
-    public {{ className|lcfirst }}(): {{ className }}Repository
+    constructor(private appHttp:AppHttp) {}
+{% for path, pathItem in swagger.paths %}
+{% for method, operation in pathItem.getOperations() %}
+    public {{ operation.operationId }}(): void
     {
-        return this.injector.get({{ className }}Repository)
+        return this.appHttp.{{ method }}('{{ path }}')
+                .map(
+                        (response: Response) => {
+                            return true;
+                        }
+                );
     }
-
+{% endfor %}
 {% endfor %}
 }

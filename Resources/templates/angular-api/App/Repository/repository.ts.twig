@@ -1,9 +1,9 @@
 {% autoescape false %}
 {% set className = definitionName|class_name %}
-import { Injectable } from "@angular/core";
-import { Repository } from "../Repository";
-import { AppHttp } from "../AppHttp";
-import {{ '{ ' ~ className ~ ' }' }} from "../Model/{{ className }}";
+import { Injectable } from '@angular/core';
+import { Repository } from '../Repository';
+import { AppHttp } from '../AppHttp';
+import {{ '{ ' ~ className ~ ' }' }} from '../Model/{{ className }}';
 
 @Injectable()
 export class {{ className }}Repository extends Repository<{{ className }}>
